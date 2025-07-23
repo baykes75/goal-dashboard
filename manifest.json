@@ -1,0 +1,130 @@
+{
+  "name": "Goal Tracker Dashboard",
+  "short_name": "GoalTracker",
+  "description": "Your Personal Productivity Command Center - Track daily, weekly, and monthly goals with real-time progress monitoring.",
+  "version": "1.2.0",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#764ba2",
+  "background_color": "#667eea",
+  "lang": "en",
+  "scope": "/",
+  "categories": ["productivity", "lifestyle", "utilities"],
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Goal Tracker Dashboard - Desktop View"
+    },
+    {
+      "src": "/screenshot-narrow.png", 
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Goal Tracker Dashboard - Mobile View"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-96.png",
+      "sizes": "96x96", 
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Daily Goals",
+      "short_name": "Daily",
+      "description": "View today's goals and tasks",
+      "url": "/?tab=daily",
+      "icons": [
+        {
+          "src": "/icon-daily.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Weekly Goals", 
+      "short_name": "Weekly",
+      "description": "View this week's goals",
+      "url": "/?tab=weekly",
+      "icons": [
+        {
+          "src": "/icon-weekly.png", 
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Monthly Goals",
+      "short_name": "Monthly", 
+      "description": "View this month's goals",
+      "url": "/?tab=monthly",
+      "icons": [
+        {
+          "src": "/icon-monthly.png",
+          "sizes": "192x192", 
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "handle_links": "preferred",
+  "capture_links": "existing-client-navigate"
+}

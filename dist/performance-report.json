@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-07-23T20:00:30.167Z",
+  "originalSizes": {
+    "css": 8854,
+    "js": 16518,
+    "html": 10407,
+    "sw": 10712
+  },
+  "minifiedSizes": {
+    "css": 6247,
+    "js": 12354,
+    "html": 7221,
+    "sw": 6068
+  },
+  "savings": {
+    "bytes": 14601,
+    "percentage": "31.4"
+  },
+  "recommendations": [
+    "Enable gzip compression on your server",
+    "Use a CDN for faster asset delivery",
+    "Implement HTTP/2 for multiplexed connections",
+    "Consider using WebP images for better compression",
+    "Enable browser caching with proper cache headers"
+  ]
+}
