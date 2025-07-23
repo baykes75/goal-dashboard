@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goal Tracker Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎯 Goal Tracker Dashboard</h1>
+            <p>Your Personal Productivity Command Center</p>
+        </div>
+
+        <!-- Current Time & Tasks Section -->
+        <div class="current-time-section">
+            <div class="time-display">
+                <div class="time-card">
+                    <h3>Current Time</h3>
+                    <div class="value" id="current-time">--:--</div>
+                </div>
+                <div class="time-card">
+                    <h3>Today</h3>
+                    <div class="value" id="current-date">Loading...</div>
+                </div>
+                <div class="time-card">
+                    <h3>Week</h3>
+                    <div class="value" id="current-week">Week --</div>
+                </div>
+            </div>
+
+            <div class="current-next-tasks">
+                <div class="task-card">
+                    <h4>🔥 Current Task</h4>
+                    <div id="current-task" class="task-item current">
+                        Loading current task...
+                    </div>
+                </div>
+                <div class="task-card">
+                    <h4>⏭️ Next Task</h4>
+                    <div id="next-task" class="task-item next">
+                        Loading next task...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Goals Progress Section -->
+        <div class="stats-grid">
+            <div class="stat-card youtube">
+                <div class="stat-header">
+                    <div class="stat-title">🎥 YouTube Videos</div>
+                    <div class="stat-deadline">Due: Dec 5, 2025</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill youtube" id="youtube-progress"></div>
+                </div>
+                <div class="stat-numbers">
+                    <span class="stat-current"><span id="youtube-current">0</span> completed</span>
+                    <span class="stat-target">60 target</span>
+                </div>
+            </div>
+
+            <div class="stat-card ai-cert">
+                <div class="stat-header">
+                    <div class="stat-title">🤖 AI Certification</div>
+                    <div class="stat-deadline">Due: Aug 30, 2025</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill ai-cert" id="ai-cert-progress"></div>
+                </div>
+                <div class="stat-numbers">
+                    <span class="stat-current"><span id="ai-cert-current">0</span>% complete</span>
+                    <span class="stat-target">100% target</span>
+                </div>
+            </div>
+
+            <div class="stat-card ai-product">
+                <div class="stat-header">
+                    <div class="stat-title">🚀 AI Product MVP</div>
+                    <div class="stat-deadline">Due: Oct 21, 2025</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill ai-product" id="ai-product-progress"></div>
+                </div>
+                <div class="stat-numbers">
+                    <span class="stat-current"><span id="ai-product-current">0</span>% complete</span>
+                    <span class="stat-target">100% target</span>
+                </div>
+            </div>
+
+            <div class="stat-card podcast">
+                <div class="stat-header">
+                    <div class="stat-title">🎙️ Podcast Episodes</div>
+                    <div class="stat-deadline">First: Aug 15, 2025</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill podcast" id="podcast-progress"></div>
+                </div>
+                <div class="stat-numbers">
+                    <span class="stat-current"><span id="podcast-current">0</span> episodes</span>
+                    <span class="stat-target">Weekly ongoing</span>
+                </div>
+            </div>
+
+            <div class="stat-card blog">
+                <div class="stat-header">
+                    <div class="stat-title">📝 Blog Pages</div>
+                    <div class="stat-deadline">Due: Nov 30, 2025</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill blog" id="blog-progress"></div>
+                </div>
+                <div class="stat-numbers">
+                    <span class="stat-current"><span id="blog-current">0</span> pages</span>
+                    <span class="stat-target">400 target</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('daily')">📅 Daily Goals</button>
+            <button class="tab" onclick="showTab('weekly')">📊 Weekly Goals</button>
+            <button class="tab" onclick="showTab('monthly')">📈 Monthly Goals</button>
+        </div>
+
+        <!-- Daily Goals -->
+        <div id="daily-content" class="tab-content active">
+            <h2>📅 Today's Goals</h2>
+            <div id="daily-goals"></div>
+
+            <!-- Standby Activities -->
+            <div class="standby-section">
+                <h4>⚡ Standby Activities (When appointments are cancelled)</h4>
+                <div class="standby-items">
+                    <div class="standby-item">📧 Lead Magnets</div>
+                    <div class="standby-item">🔄 Funnels</div>
+                    <div class="standby-item">📨 Email Automation</div>
+                    <div class="standby-item">🎙️ Podcasting (Appointment Replacement)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Goals -->
+        <div id="weekly-content" class="tab-content">
+            <h2>📊 This Week's Goals</h2>
+            <div id="weekly-goals"></div>
+        </div>
+
+        <!-- Monthly Goals -->
+        <div id="monthly-content" class="tab-content">
+            <h2>📈 This Month's Goals</h2>
+            <div id="monthly-goals"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
