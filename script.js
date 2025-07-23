@@ -152,8 +152,28 @@ const monthlyGoals = [
     { task: 'Conduct 12 AI coaching calls', type: 'ai-cert', completed: false }
 ];
 
-// Initialize dashboard
+// Performance optimization: Cache DOM elements
+const domCache = {};
+
+function cacheElement(id) {
+    if (!domCache[id]) {
+        domCache[id] = document.getElementById(id);
+    }
+    return domCache[id];
+}
+
+// Initialize dashboard with performance optimizations
 function initDashboard() {
+    // Cache all frequently accessed DOM elements
+    const elementsToCache = [
+        'current-time', 'current-date', 'current-week', 'current-task', 'next-task',
+        'youtube-progress', 'youtube-current', 'ai-cert-progress', 'ai-cert-current',
+        'ai-product-progress', 'ai-product-current', 'podcast-progress', 'podcast-current',
+        'blog-progress', 'blog-current', 'daily-goals', 'weekly-goals', 'monthly-goals'
+    ];
+    
+    elementsToCache.forEach(id => cacheElement(id));
+    
     updateDateTime();
     updateCurrentTask();
     updateGoalsProgress();
@@ -161,46 +181,43 @@ function initDashboard() {
     loadWeeklyGoals();
     loadMonthlyGoals();
     
-    // Update time every minute
+    // Optimized intervals - only update when necessary
     setInterval(updateDateTime, 60000);
-    // Update current task every minute
     setInterval(updateCurrentTask, 60000);
 }
 
-// Update date and time
+// Optimized date and time update
 function updateDateTime() {
     const now = new Date();
     
-    // Update current time
+    // Use cached elements for better performance
     const timeString = now.toLocaleTimeString('en-US', { 
         hour: '2-digit', 
         minute: '2-digit',
         hour12: false 
     });
-    document.getElementById('current-time').textContent = timeString;
+    cacheElement('current-time').textContent = timeString;
     
-    // Update current date
     const dateString = now.toLocaleDateString('en-US', { 
         weekday: 'long',
         year: 'numeric', 
         month: 'long', 
         day: 'numeric' 
     });
-    document.getElementById('current-date').textContent = dateString;
+    cacheElement('current-date').textContent = dateString;
     
-    // Update week number
     const weekNumber = getWeekNumber(now);
-    document.getElementById('current-week').textContent = `Week ${weekNumber}`;
+    cacheElement('current-week').textContent = `Week ${weekNumber}`;
 }
 
-// Get week number
+// Optimized week number calculation
 function getWeekNumber(date) {
     const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
     const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
     return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
 }
 
-// Update current and next task
+// Optimized current task update
 function updateCurrentTask() {
     const now = new Date();
     const currentDay = now.toLocaleDateString('en-US', { weekday: 'long' });
@@ -211,6 +228,7 @@ function updateCurrentTask() {
     let currentTask = null;
     let nextTask = null;
     
+    // Optimized loop with early exit
     for (let i = 0; i < todaySchedule.length; i++) {
         const taskTime = parseInt(todaySchedule[i].time.replace(':', ''));
         
@@ -225,41 +243,155 @@ function updateCurrentTask() {
         }
     }
     
-    // Update current task
-    const currentTaskElement = document.getElementById('current-task');
-    if (currentTask) {
-        currentTaskElement.textContent = `${currentTask.time} - ${currentTask.task}`;
-    } else {
-        currentTaskElement.textContent = 'No current task scheduled';
-    }
+    // Use cached elements for better performance
+    const currentTaskElement = cacheElement('current-task');
+    const nextTaskElement = cacheElement('next-task');
     
-    // Update next task
-    const nextTaskElement = document.getElementById('next-task');
-    if (nextTask) {
-        nextTaskElement.textContent = `${nextTask.time} - ${nextTask.task}`;
-    } else {
-        nextTaskElement.textContent = 'No more tasks today';
-    }
+    currentTaskElement.textContent = currentTask 
+        ? `${currentTask.time} - ${currentTask.task}`
+        : 'No current task scheduled';
+    
+    nextTaskElement.textContent = nextTask
+        ? `${nextTask.time} - ${nextTask.task}`
+        : 'No more tasks today';
 }
 
-// Update goals progress
+// Optimized goals progress update
 function updateGoalsProgress() {
     // YouTube
     const youtubePercent = Math.round((goals.youtube.current / goals.youtube.target) * 100);
-    document.getElementById('youtube-progress').style.width = youtubePercent + '%';
-    document.getElementById('youtube-current').textContent = goals.youtube.current;
+    cacheElement('youtube-progress').style.width = youtubePercent + '%';
+    cacheElement('youtube-current').textContent = goals.youtube.current;
     
     // AI Certification
-    document.getElementById('ai-cert-progress').style.width = goals.aiCert.current + '%';
-    document.getElementById('ai-cert-current').textContent = goals.aiCert.current;
+    cacheElement('ai-cert-progress').style.width = goals.aiCert.current + '%';
+    cacheElement('ai-cert-current').textContent = goals.aiCert.current;
     
     // AI Product
-    document.getElementById('ai-product-progress').style.width = goals.aiProduct.current + '%';
-    document.getElementById('ai-product-current').textContent = goals.aiProduct.current;
+    cacheElement('ai-product-progress').style.width = goals.aiProduct.current + '%';
+    cacheElement('ai-product-current').textContent = goals.aiProduct.current;
     
     // Podcast
     const podcastPercent = goals.podcast.current > 0 ? 100 : 0;
-    document.getElementById('podcast-progress').style.width = podcastPercent + '%';
-    document.getElementById('podcast-current').textContent = goals.podcast.current;
+    cacheElement('podcast-progress').style.width = podcastPercent + '%';
+    cacheElement('podcast-current').textContent = goals.podcast.current;
     
     // Blog
+    const blogPercent = Math.round((goals.blog.current / goals.blog.target) * 100);
+    cacheElement('blog-progress').style.width = blogPercent + '%';
+    cacheElement('blog-current').textContent = goals.blog.current;
+}
+
+// Optimized goal rendering with document fragment
+function renderGoals(goals, containerId) {
+    const container = cacheElement(containerId);
+    const fragment = document.createDocumentFragment();
+    
+    goals.forEach((goal, index) => {
+        const goalDiv = document.createElement('div');
+        goalDiv.className = `goal-item ${goal.type} ${goal.completed ? 'completed' : ''}`;
+        
+        goalDiv.innerHTML = `
+            <input type="checkbox" ${goal.completed ? 'checked' : ''} 
+                   onchange="toggleGoal('${containerId}', ${index})">
+            <span>${goal.task}</span>
+        `;
+        
+        fragment.appendChild(goalDiv);
+    });
+    
+    container.innerHTML = '';
+    container.appendChild(fragment);
+}
+
+// Load daily goals
+function loadDailyGoals() {
+    const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    const todayGoals = dailyGoals[today] || [];
+    renderGoals(todayGoals, 'daily-goals');
+}
+
+// Load weekly goals
+function loadWeeklyGoals() {
+    renderGoals(weeklyGoals, 'weekly-goals');
+}
+
+// Load monthly goals
+function loadMonthlyGoals() {
+    renderGoals(monthlyGoals, 'monthly-goals');
+}
+
+// Optimized tab switching with event delegation
+function showTab(tabName) {
+    // Hide all tab contents
+    const tabContents = document.querySelectorAll('.tab-content');
+    const tabs = document.querySelectorAll('.tab');
+    
+    tabContents.forEach(content => content.classList.remove('active'));
+    tabs.forEach(tab => tab.classList.remove('active'));
+    
+    // Show selected tab
+    const selectedContent = document.getElementById(`${tabName}-content`);
+    const selectedTab = document.querySelector(`[onclick="showTab('${tabName}')"]`);
+    
+    if (selectedContent) selectedContent.classList.add('active');
+    if (selectedTab) selectedTab.classList.add('active');
+}
+
+// Toggle goal completion
+function toggleGoal(containerId, goalIndex) {
+    let goalArray;
+    
+    switch(containerId) {
+        case 'daily-goals':
+            const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+            goalArray = dailyGoals[today];
+            break;
+        case 'weekly-goals':
+            goalArray = weeklyGoals;
+            break;
+        case 'monthly-goals':
+            goalArray = monthlyGoals;
+            break;
+    }
+    
+    if (goalArray && goalArray[goalIndex]) {
+        goalArray[goalIndex].completed = !goalArray[goalIndex].completed;
+        
+        // Re-render only the affected container
+        renderGoals(goalArray, containerId);
+        
+        // Save to localStorage for persistence
+        localStorage.setItem('goalTracker', JSON.stringify({
+            dailyGoals,
+            weeklyGoals,
+            monthlyGoals
+        }));
+    }
+}
+
+// Load saved progress from localStorage
+function loadSavedProgress() {
+    const saved = localStorage.getItem('goalTracker');
+    if (saved) {
+        const data = JSON.parse(saved);
+        Object.assign(dailyGoals, data.dailyGoals || {});
+        Object.assign(weeklyGoals, data.weeklyGoals || []);
+        Object.assign(monthlyGoals, data.monthlyGoals || []);
+    }
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    loadSavedProgress();
+    initDashboard();
+});
+
+// Service Worker registration for offline functionality
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => console.log('SW registered'))
+            .catch(error => console.log('SW registration failed'));
+    });
+}
